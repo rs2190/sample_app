@@ -1,0 +1,39 @@
+<!--使用場面	                  SampleAppでの使用箇所	モデルオブジェクト-->
+<!--単一行のテキストフィールド	タイトル	           　text_field-->
+<!--複数行のテキストフィールド	本文	                 text_area-->
+<!--送信ボタン	               「投稿」ボタン	         submit-->
+
+<!--errorsは、モデルにバリデーションをかけたときに、発生したエラーの内容を確認できるメソッドです。-->
+<!--any? と組み合わせることで、エラーが発生しているかどうかを判定できます。-->
+<!--また、full_messagesと組み合わせることで、エラーの内容を出力できます。 エラー文は配列で保存されているため、eachを使います。-->
+
+<h1>新規投稿</h1>
+<!-- エラーメッセージ部分 -->
+<% if @list.errors.any? %>
+ <%= @list.errors.count %>件のエラーが発生しました。
+ <ui>
+  <% @list.errors.full_messages.each do |message| %>
+   <li><%= message %></li>
+   <% end %>
+ </ui>
+ <% end %>
+
+<!-- form_with部分 -->
+ <%= form_with model: @list, url:'/lists', method: :post do |f| %>
+ <h4>タイトル</h4>
+ <%= f.text_field :title %>
+
+ <h4>本文</h4>
+ <%= f.text_area :body %>
+
+
+<!--新しく追加したのは'file_field'というフィールドです。-->
+<!--文字通り、ファイルの投稿をするためのフィールドなので、画像ファイル以外の全てのファイル(音声ファイルや動画ファイルなど)も投稿できてしまいます。-->
+
+<!--そのため今回は、accept: "image/*"を使い、画像ファイルしか投稿できないようにしています。-->
+ <h4>画像</h4>
+ <%= f.file_field :image, accept: "image/*" %>
+
+ <%= f.submit '投稿' %>
+
+<% end %>

@@ -1,0 +1,20 @@
+<h1>編集画面</h1>
+
+ <!--form_with model: @list, url: update_list_path(@list.id), method: :patch do |f| -->
+<%= form_with model: @list do |f| %>
+
+  <h4>タイトル</h4>
+  <%= f.text_field :title %>
+
+  <h4>本文</h4>
+  <%= f.text_area :body %>
+
+  <h4>画像</h4>
+  <% if @list.image.attached? %>
+    <%= image_tag @list.image, size: "100×100" %>
+  <% else %>
+    <%= image_tag 'no_image', size: "100×100" %>
+  <% end %>
+  <%= f.file_field :image %>
+  <%= f.submit '保存'%>
+<% end %>
